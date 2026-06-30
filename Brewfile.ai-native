@@ -1,0 +1,61 @@
+# Brewfile.ai-native ── AIネイティブなアプリのみで組む新Mac用
+# 適用: brew bundle --file=~/mac-setup/Brewfile.ai-native
+# 既存の full な Brewfile（現Macの完全スナップショット）とは別運用。
+
+# --- 最小ベース（AIコーディングエージェントを実際に動かす土台） ---
+brew "git"
+brew "gh"
+brew "node"                 # Codex/Orca 等のエージェント実行・npm 用
+brew "mise"                 # 多言語バージョン管理（asdf 後継）
+brew "chezmoi"              # dotfiles 管理（kyaukyuai/dotfiles を init --apply）
+# brew "claude-code"        # Claude Code CLI（Orca が統括／要・型確認: cask か formula か。npm: @anthropic-ai/claude-code でも可）
+# モダンCLI（ターミナル/エージェント作業を加速・rg/fd はエージェントの検索に効く）
+brew "ripgrep"
+brew "fd"
+brew "bat"
+brew "eza"
+brew "fzf"
+brew "jq"
+# 開発ランタイム
+cask "orbstack"             # 高速な Docker / Linux on Mac
+
+# --- 認証・セキュリティ ---
+cask "1password"            # パスワード管理（資格情報・OAuth の中枢）
+cask "1password-cli"        # 1Password CLI（op コマンド）
+
+# --- AIネイティブ・アプリ（cask 実在確認済み） ---
+cask "zed"                  # AIネイティブ コードエディタ
+cask "claude"               # Claude デスクトップ（Anthropic）
+cask "codex"                # OpenAI Codex ── ターミナルで動くコーディングエージェント
+cask "slack"                # Slack（AI機能を備えた社内コミュニケーション）
+cask "mole-app"             # Mole ── Mac メンテ/最適化（mole.fit）。※AIエージェントではなく保守ツール
+
+# --- Orca ── 複数コーディングエージェント(Claude Code / Codex 等)を並列実行する ADE ---
+# 出所: https://www.onorca.dev/ ・ github.com/stablyai/orca（MIT・サードパーティ tap）
+tap "stablyai/orca"
+cask "stablyai/orca/orca"
+
+# --- ユーティリティ / ランチャー ---
+cask "alfred"                      # ランチャー＋ワークフロー（Raycast も入れる場合は役割が重複）
+brew "mas"                         # Mac App Store CLI（mas アプリの導入に必要・要 App Store サインイン）
+mas "Amphetamine", id: 937984704   # スリープ防止（Mac App Store 専用）
+
+# --- 画面・ウィンドウ管理（AeroSpace 中心の一式） ---
+tap "nikitabobko/tap"
+cask "nikitabobko/tap/aerospace"      # タイリング WM（i3風）
+tap "felixkratz/formulae"
+brew "felixkratz/formulae/borders"    # JankyBorders: アクティブウィンドウの枠
+brew "felixkratz/formulae/sketchybar" # カスタム ステータスバー（AeroSpace のワークスペース表示に）
+cask "jordanbaird-ice"                # Ice: メニューバー整理（Bartender 代替・無料）
+cask "stats"                          # システムモニタをメニューバーに（無料）
+cask "karabiner-elements"             # キーボード再マップ
+cask "swish"                          # トラックパッド ジェスチャでウィンドウ操作
+# フォント（SketchyBar/ターミナルのアイコン表示に必須・無いと□豆腐になる）
+cask "font-sketchybar-app-font"
+cask "font-jetbrains-mono-nerd-font"
+# BetterSnapTool は AeroSpace（タイリング）と思想が重複するため既定では除外。
+# 手動スナップも併用したい場合のみ → mas "BetterSnapTool", id: 417375580
+
+# --- brew 未対応（手動インストール） ---
+# Aside ── 「エージェント向けに作られた AI ブラウザ」: https://aside.com/download から DMG を取得
+#   （同名の別アプリ "Aside Voice Notes" / "Aside AI Chat" とは別物。AIブラウザの aside.com が該当）

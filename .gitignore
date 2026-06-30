@@ -1,0 +1,13 @@
+# 機密は絶対にコミットしない（dotfiles を後で足す場合の保険）
+*.key
+*.pem
+*.p12
+.env
+.env.keys
+.env.*
+**/credentials*
+**/*secret*
+**/*token*
+**/id_rsa*
+**/id_ed25519*
+.DS_Store
