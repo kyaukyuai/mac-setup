@@ -14,7 +14,7 @@ echo "▶ 2/5 Homebrew"
 command -v brew >/dev/null 2>&1 || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-echo "▶ 3/5 Brewfile: $BREWFILE（formula / cask / tap / mas / VSCode拡張）"
+echo "▶ 3/5 Brewfile: ${BREWFILE} (formula / cask / tap / mas)"
 echo "  ※ mas アプリは事前に App Store サインインが必要"
 brew bundle --file="$HERE/$BREWFILE"
 
