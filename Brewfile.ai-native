@@ -16,6 +16,8 @@ brew "bat"
 brew "eza"
 brew "fzf"
 brew "jq"
+brew "starship"             # シェルプロンプト（dotfiles の .zshrc が使用）
+brew "direnv"               # ディレクトリ別の環境変数ロード
 # 開発ランタイム
 cask "orbstack"             # 高速な Docker / Linux on Mac
 
