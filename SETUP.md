@@ -46,7 +46,7 @@
 17. **常駐サービス起動**
     ```bash
     brew services start felixkratz/formulae/borders     # JankyBorders
-    brew services start felixkratz/formulae/sketchybar  # ※ ~/.config/sketchybar は未作成 → 別途設定が要る
+    brew services start felixkratz/formulae/sketchybar  # 設定は chezmoi で復元済（AeroSpace ワークスペース連携）
     ```
 18. **権限付与（初回・GUI 必須）**
     - AeroSpace：アクセシビリティ
