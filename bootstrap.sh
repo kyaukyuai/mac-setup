@@ -16,6 +16,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 echo "▶ 3/5 Brewfile: ${BREWFILE} (formula / cask / tap / mas)"
 echo "  ※ mas アプリは事前に App Store サインインが必要"
+# 非公式 tap を信頼（新しい Homebrew は untrusted tap の cask/formula 読込を拒否するため）
+( grep -E '^tap ' "$HERE/$BREWFILE" || true ) | sed -E 's/^tap "([^"]+)".*/\1/' | while read -r t; do
+  brew trust "$t" 2>/dev/null || true
+done
 brew bundle --file="$HERE/$BREWFILE"
 
 echo "▶ 4/5 dotfiles（chezmoi）"
