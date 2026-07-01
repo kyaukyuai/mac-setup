@@ -27,7 +27,7 @@ command -v chezmoi >/dev/null 2>&1 || brew install chezmoi
 if [ -d "$HOME/.local/share/chezmoi/.git" ]; then
   chezmoi apply
 else
-  echo "  private な dotfiles を取得します（先に 'gh auth login' で GitHub 認証が必要）"
+  echo "  公開リポ kyaukyuai/dotfiles を取得します（認証不要）"
   read -r -p "  chezmoi init --apply kyaukyuai を実行しますか？ [y/N] " a
   [[ "${a:-N}" =~ ^[Yy]$ ]] && chezmoi init --apply kyaukyuai || echo "  → 後で 'chezmoi init --apply kyaukyuai' を実行してください"
 fi
@@ -39,7 +39,8 @@ read -r -p "  macOS defaults を適用しますか？ [y/N] " ans
 cat <<'EOF'
 
 ✅ bootstrap 完了。残りの手動タスク（GUI / 人手 / 機密）:
-  - ~/.config/zsh/secrets.zsh に APIキー等を記入（dotfiles リポには含まれない）
+  - ~/.config/git/identity.local に実名メール/GPG署名を記入（リポに含まれない）
+  - ~/.config/zsh/secrets.zsh に APIキー等を記入（リポに含まれない）
   - FileVault・ファイアウォール・Touch ID を有効化（システム設定）
   - Time Machine バックアップ先を設定
   - Apple ID / iCloud / 2要素認証、各アプリへサインイン

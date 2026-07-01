@@ -19,22 +19,21 @@
 8. **Time Machine** ── バックアップ先（外付け/NAS）を設定
 
 ## フェーズ2：自動セットアップ（ターミナル）
-9. **GitHub 認証** ── private リポ取得に必要
+9. **Command Line Tools** ── git clone に必要（未導入なら次の clone 時に自動で促される）
    ```bash
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"  # Homebrew（bootstrapでも入る）
-   brew install gh && gh auth login
+   xcode-select --install
    ```
+   ※ dotfiles・mac-setup は公開リポなので clone に `gh auth login` は不要（gh CLI は後で任意に）
 10. **App Store にサインイン**（`mas`/Amphetamine 用・bootstrap より前に）
 11. **クローン → bootstrap**
     ```bash
     git clone https://github.com/kyaukyuai/mac-setup ~/mac-setup
     bash ~/mac-setup/bootstrap.sh        # AIネイティブ最小（既定）
     ```
-    bootstrap が実行：CLT → Homebrew → `brew bundle`（アプリ一式）→ `chezmoi init --apply kyaukyuai`（dotfiles 展開）→ macOS defaults
-12. **secrets.zsh に鍵を記入**（必要なものだけ。リポには含まれない）
-    ```bash
-    ${EDITOR:-vi} ~/.config/zsh/secrets.zsh    # 例: export ANTHROPIC_API_KEY="..."（現状 OpenAI は env 不要）
-    ```
+    bootstrap が実行：CLT確認 → Homebrew → `brew bundle`（非公式 tap は自動 trust）→ `chezmoi init --apply kyaukyuai`（公開リポ・認証不要）→ macOS defaults
+12. **ローカル設定ファイルを作成**（リポには含まれない・機密）
+    - `~/.config/git/identity.local` ── 実名メール（GPG署名は鍵移行後に追記）
+    - `~/.config/zsh/secrets.zsh` ── APIキー等（必要なものだけ）
 
 ## フェーズ3：手動アプリ・サインイン
 13. **Aside（AIブラウザ）** ── brew 未対応 → https://aside.com/download から DMG
@@ -61,12 +60,12 @@
 ---
 
 ## 既知の人手ゲート（自動化できない）
-- **private dotfiles 取得**：`gh auth login` が前提
+- **公開リポ**：dotfiles・mac-setup とも public のため clone に認証不要（gh CLI は任意）
 - **mas アプリ**：App Store サインイン後でないと入らない
 - **各種権限**（アクセシビリティ/入力監視/画面収録）：アプリ初回に手動許可
 - **secrets.zsh**：鍵はリポに含まれない（手動記入）
 - **Aside / FileVault / Time Machine / AppleCare**：GUI 操作
 
 ## 日常メンテ
-- 新しく入れた/消したアプリ → `brew bundle dump --describe --force --file=~/mac-setup/Brewfile`（or `.ai-native`）→ commit/push
+- 新しく入れた/消したアプリ → `brew bundle dump --describe --force --file=~/mac-setup/Brewfile.ai-native` → commit/push
 - 設定を変えた → `chezmoi re-add`（or `chezmoi add <file>`）→ `chezmoi cd` で commit/push
